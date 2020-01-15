@@ -1,0 +1,14 @@
+/* You can add global styles to this file, and also import other style files */
+$headerBg:blueviolet;
+.images{
+    transform: scale(0);
+    animation:animateScale 0.6s ease-in forwards;
+}
+@keyframes animateScale{
+    to{
+        transform: scale(1);
+    }
+}
+#header{
+    background-color: $headerBg;
+}

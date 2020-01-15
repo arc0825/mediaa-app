@@ -1,0 +1,56 @@
+<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+  <a class="navbar-brand" href="javascript:void(0)">
+    <img src="https://via.placeholder.com/150" alt="Logo" routerLink="./" style="width:40px;">
+  </a>
+  <ul class="navbar nav">
+    <li class="nav-item"><a class="nav-link" routerLink="./">Home</a></li>
+    <li class="nav-item"><a class="nav-link" routerLink="/about-us">About Us</a></li>
+    <li class="nav-item " *ngIf="loginState"><a class="nav-link" routerLink="/gallery">Gallery</a></li>
+  </ul>
+  <span dropdown class="ml-auto position-relative" *ngIf="loginState; else loginBtn">
+    <a href id="basic-link" dropdownToggle (click)="false" aria-controls="basic-link-dropdown">{{userObj?.userId}}</a>
+    <ul id="basic-link-dropdown" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="basic-link">
+      <li class="dropdown-item">Settings</li>
+      <li class="dropdown-item" (click)="signOut()">Sign Out</li>
+    </ul>
+  </span>
+  <ng-template #loginBtn>
+    <button class="btn ml-auto btn-outline-light" (click)="openModal(loginTemplate)">Login</button>
+  </ng-template>
+</nav>
+<ng-template #loginTemplate>
+  <div class="modal-header">
+    <h4>Sign In</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+
+  </div>
+  <div class="modal-body">
+    <form #loginForm="ngForm" (ngSubmit)="login(loginForm.value)">
+      <div class="alert-danger p-2" *ngIf="isValid">* Username or Password invalid.</div>
+      <div class="form-group input-group-lg">
+        <label for="username">Username</label>
+        <input id="username" class="form-control" (focus)="isValid=false" placeholder="Enter Username" name="username"
+          #name ngModel required />
+        <div class="alert-danger p-2"
+          *ngIf="loginForm.controls.username?.invalid && (loginForm.controls.username?.dirty || loginForm.controls.username?.touched)">
+          * Username is required</div>
+
+      </div>
+      <div class="form-group input-group-lg">
+        <label for="password">Password</label>
+        <input id="password" class="form-control" (focus)="isValid=false" placeholder="Enter Password" name="password"
+          ngModel required />
+        <div class="alert-danger p-2"
+          *ngIf="loginForm.controls.password?.invalid && (loginForm.controls.password?.dirty || loginForm.controls.password?.touched)">
+          * Password is required</div>
+
+      </div>
+
+      <button type="submit" class="float-right btn btn-primary btn-md ml-auto"
+        [disabled]="!loginForm.valid">Submit</button>
+    </form>
+    <img alt="">
+  </div>
+</ng-template>
